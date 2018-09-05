@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Flurry Config Sample</string>
+    <string name="reset_config">Reset Config Data</string>
+
+    <string name="ui_theme">AppThemeLight</string>
+
+    <string name="pager_views">Welcome,Account,Contents</string>
+
+    <string name="welcome_title">Welcome</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="welcome_font_color">#ff0099ff</string>
+
+    <string name="login_title">Account</string>
+    <string name="login_id">User ID:</string>
+    <string name="login_password">Password:</string>
+    <string name="login_submit">Submit</string>
+
+    <string name="credit_title">Credit</string>
+    <string name="credit_redeem">You have redeemed a gift card of $200.00.</string>
+    <string name="credit_balance">Your current balance is now: $1,200.00.</string>
+
+    <string name="contents_title">Contents</string>
+    <string name="contents_message">Contents List</string>
+    <string name="contents_header_symbol">Symbol</string>
+    <string name="contents_header_price">Price</string>
+    <string name="contents_header_quantity">Quantity</string>
+    <string name="contents_header_total">Total</string>
+</resources>

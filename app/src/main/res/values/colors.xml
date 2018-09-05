@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark1">#669900</color>
+    <color name="colorPrimaryDark2">#303F9F</color>
+    <color name="colorAccent1">#FF4081</color>
+    <color name="colorAccent2">#33B5E5</color>
+
+    <color name="pager_background">#33b5e5</color>
+    <color name="pager_text_color">@android:color/white</color>
+</resources>
