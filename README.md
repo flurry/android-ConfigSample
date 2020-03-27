@@ -27,7 +27,7 @@ Set up your project using the instructions provided in
 1. Create an App and Get Your API Key
 2. Add the following dependency to your app module's build.gradle:
    ```groovy
-   implementation 'com.flurry.android:analytics:11.3.0@aar'
+   implementation 'com.flurry.android:analytics:12.2.0@aar'
    ```
 3. Add the following calls to initialize the Flurry SDK by using the FlurryAgent.Builder
    to initialize the Flurry SDK with your project’s API key.
