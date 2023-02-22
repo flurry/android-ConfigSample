@@ -1,46 +1,54 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+//    id 'com.google.gms.google-services'
+}
 
 android {
-    compileSdkVersion 26
+    namespace 'com.flurry.configsample'
+    compileSdk 33
+
     defaultConfig {
         applicationId "com.flurry.configsample"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation 'com.flurry.android:analytics:11.3.0@aar'
+//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.flurry.android:analytics:14.1.0'
+    implementation 'com.flurry.android:marketing:14.1.0'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "com.google.android.gms:play-services-ads-identifier:18.0.1"
+
+    // To get the Firebase token, in order to make both work by our users' integrations,
+    // - the old FirebaseInstanceId.getToken()
+    // - the new FirebaseMessaging.getInstance().getToken()
+    // currently we are using the latest firebase-messaging:21.1.0 that still keeps the old API,
+    // - 22.0.0 removed the old FirebaseInstanceId.getToken() - May 2021
+    // - 20.3.0 added the new FirebaseMessaging.getToken() - October 2020
+//    implementation 'com.google.firebase:firebase-messaging:21.1.0'
+
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
-
-allprojects {
-    gradle.projectsEvaluated {
-        // Turn on all warnings and errors
-        tasks.withType(JavaCompile) {
-            configure(options) {
-                compilerArgs << "-Xlint:all"            // Turn on all warnings
-                compilerArgs << "-Xlint:-options"       // Turn off "missing" bootclasspath warning
-                compilerArgs << "-Werror"               // Turn warnings into errors
-                encoding = "utf-8"
-            }
-        }
-    }
-}
-

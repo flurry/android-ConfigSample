@@ -17,12 +17,13 @@
 package com.flurry.configsample;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import com.flurry.android.FlurryAgent;
@@ -108,7 +109,7 @@ public class  MainActivity extends AppCompatActivity {
         pager.setCurrentItem(pager.getCurrentItem() + 1);
     }
 
-    private static Map<String, Pair<Integer, Class<? extends Fragment>>> fragmentsMap = new HashMap<>();
+    private static final Map<String, Pair<Integer, Class<? extends Fragment>>> fragmentsMap = new HashMap<>();
     static {
         // Initialize available fragments
         fragmentsMap.put("Welcome",
@@ -125,7 +126,7 @@ public class  MainActivity extends AppCompatActivity {
         private final List<Pair<Integer, Class<? extends Fragment>>> fragments = new ArrayList<>();
 
         public SamplePagerAdapter(FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
             findViewById(R.id.pager_strip).setVisibility(View.VISIBLE);
             findViewById(R.id.pager_tab).setVisibility(View.GONE);
