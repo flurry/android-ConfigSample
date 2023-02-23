@@ -17,30 +17,31 @@
 package com.flurry.configsample;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryConfig;
 import com.flurry.android.FlurryConfigListener;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class  MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     private FlurryConfig mFlurryConfig;
     private FlurryConfigListener mFlurryConfigListener;
 
-    ViewPager pager;
+    ViewPager2 pager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,14 @@ public class  MainActivity extends AppCompatActivity {
         setContentView(R.layout.pager_main);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        pager = (ViewPager) findViewById(R.id.pager);
-        final SamplePagerAdapter pagerAdapter = new SamplePagerAdapter(getSupportFragmentManager());
+        pager = (ViewPager2) findViewById(R.id.pager);
+        final SamplePagerAdapter pagerAdapter = new SamplePagerAdapter(this);
         pager.setAdapter(pagerAdapter);
+
+        TabLayout tabLayout = findViewById(R.id.pager_tab);
+        new TabLayoutMediator(tabLayout, pager,
+                (tab, position) -> tab.setText(pagerAdapter.fragments.get(position).first)
+        ).attach();
 
         // Setup Flurry Config
         mFlurryConfigListener = new FlurryConfigListener() {
@@ -84,10 +90,8 @@ public class  MainActivity extends AppCompatActivity {
                 FlurryAgent.logEvent("Config Update Pager");
                 if (mFlurryConfig.getBoolean("pager_tab",
                         getResources().getBoolean(R.bool.pager_tab))) {
-                    findViewById(R.id.pager_strip).setVisibility(View.GONE);
                     findViewById(R.id.pager_tab).setVisibility(View.VISIBLE);
                 } else {
-                    findViewById(R.id.pager_strip).setVisibility(View.VISIBLE);
                     findViewById(R.id.pager_tab).setVisibility(View.GONE);
                 }
 
@@ -122,13 +126,12 @@ public class  MainActivity extends AppCompatActivity {
                 new Pair<Integer, Class<? extends Fragment>>(R.string.contents_title, ContentsFragment.class));
     }
 
-    private class SamplePagerAdapter extends FragmentStatePagerAdapter {
+    private class SamplePagerAdapter extends FragmentStateAdapter {
         private final List<Pair<Integer, Class<? extends Fragment>>> fragments = new ArrayList<>();
 
-        public SamplePagerAdapter(FragmentManager fm) {
-            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        public SamplePagerAdapter(FragmentActivity fa) {
+            super(fa);
 
-            findViewById(R.id.pager_strip).setVisibility(View.VISIBLE);
             findViewById(R.id.pager_tab).setVisibility(View.GONE);
             updateViews(getResources().getString(R.string.pager_views));
         }
@@ -146,12 +149,7 @@ public class  MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public CharSequence getPageTitle(int position) {
-            return getResources().getString(fragments.get(position).first);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
+        public Fragment createFragment(int position) {
             try {
                 return fragments.get(position).second.newInstance();
             } catch (Exception e) {
@@ -162,7 +160,7 @@ public class  MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public int getCount() {
+        public int getItemCount() {
             return fragments.size();
         }
 

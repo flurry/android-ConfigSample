@@ -17,16 +17,17 @@
 package com.flurry.configsample;
 
 import android.os.Bundle;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
 import com.flurry.android.FlurryAgent;
 import com.flurry.android.FlurryConfig;
 import com.flurry.android.FlurryConfigListener;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class LoginFragment extends Fragment {
 
